@@ -16,7 +16,7 @@ Gbiki Posts
   <div class="panel panel-default">
   <div class="panel-heading">
 
-<a href="/post/{{$post->id}}/{{$post->post_title}}"><h4>{{ $post->post_title }}</h4></a>
+<a href="{{url('/post/'. $post->slug)}}"><h4>{{ $post->post_title }}</h4></a>
 <div class="meta">
   by <strong>{{ $post->user->name}}</strong> {{ $post->created_at->toDayDateTimeString()}}
 </div>

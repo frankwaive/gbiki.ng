@@ -14,7 +14,7 @@ Welcome to Gbiki
 
       
 
-  <a href="/post/{{$post->slug}}"><h4>{{ $post->post_title }}</h4></a>
+  <a href="{{url('/post/'. $post->slug)}}"><h4>{{ $post->post_title }}</h4></a>
 
   <div class="meta">
   by <strong>{{ $post->user->name}}</strong> on {{ $post->created_at->toDayDateTimeString()}} 

@@ -88,7 +88,7 @@
                      <?php
                     $categories = \DB::table('categories')->get(); ?>
                      @foreach ($categories as $category)
-                        <li><a href="/category/{{ $category->slug }}"> {{ $category->category_name }}</a></li>
+                        <li><a href="{{url('/category/'. $category->slug)}}"> {{ $category->category_name }}</a></li>
                     @endforeach
                         
                     </ul>

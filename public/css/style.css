@@ -7,8 +7,8 @@
     border-radius: 0!important;
 }
 
-input {
-    box-shadow: inset 0 0 5px 5px #888;
+#create-post label {
+    margin-top: 30px;
 }
 
 .navbar-right {
