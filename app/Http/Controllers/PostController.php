@@ -56,7 +56,7 @@ class PostController extends Controller
         $post->post_title = $request->post_title;
         $post->category_id = $request->category_id;
         $post->post_content = Purifier::clean($request->post_content);
-        $post->user_id = \Auth::id();
+        $post->user_id = \Auth::id(); //get logged in user
 
         if ($request->hasFile('featured_img')) {
           $image = $request->file('featured_img');
