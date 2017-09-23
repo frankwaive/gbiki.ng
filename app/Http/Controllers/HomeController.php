@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
+use App\Category;
+use App\Comment;
+use Session;
+use Purifier;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $posts = \App\Post::all()->paginate(20);
+        $users = \App\User::get();
+        return view('home')->withUsers('posts','users');
     }
 }

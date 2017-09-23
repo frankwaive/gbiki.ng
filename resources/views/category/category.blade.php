@@ -17,13 +17,14 @@ Welcome to Gbiki
   <a href="{{url('/post/'. $post->slug)}}"><h4>{{ $post->post_title }}</h4></a>
 
   <div class="meta">
-  by <strong>{{ $post->user->name}}</strong> on {{ $post->created_at->toDayDateTimeString()}} 
+  by <strong><a href="{{url('/')}}/profile/{{ $post->user->slug }}">{{ $post->user->name}}</a></strong> on {{ $post->created_at->toDayDateTimeString()}} 
 </div>
  
     </div>
 
     <div class="panel-body">
-      <p>{{ $post->post_content}}</p>
+      <?php $body = strip_tags($post->post_content); ?>
+      <p>{!! \Illuminate\Support\Str::words(  $body,55,'....')  !!}</p>
     </div>
 
 

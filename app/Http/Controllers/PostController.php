@@ -10,6 +10,8 @@ use App\Category;
 use App\Comment;
 use Session;
 use Purifier;
+use App\User;
+use App\Http\Controllers\Controller;
 
 
 class PostController extends Controller
@@ -49,7 +51,7 @@ class PostController extends Controller
                 'category_id'   => 'required|integer',
                 'user_id'   => 'integer',
                 'post_content'          => 'required',
-                'featured_img' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+                'featured_img' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4048',
             ));
         // store in the database
         $post = new Post;
@@ -61,9 +63,9 @@ class PostController extends Controller
         if ($request->hasFile('featured_img')) {
           $image = $request->file('featured_img');
           $filename = time() . '.' . $image->getClientOriginalExtension();
-          $location = url('public/uploads/uploadedimages', $filename);
-          $post->featured_img = $location;
+          $post->featured_img = $image->storeAs('uploads/uploadedimages', $filename);
         }
+
 
         $post->save();
         Session::flash('success', 'The blog post was successfully save!');

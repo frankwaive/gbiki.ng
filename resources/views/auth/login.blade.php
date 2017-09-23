@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+@section ('PageTitle')
+Login || Gbiki
+@stop
 
 @section('content')
 <div class="container">

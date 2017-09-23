@@ -51,9 +51,9 @@ class UserController extends Controller
     public function show($slug)
     {
         $user = \App\User::where('slug', $slug)->firstOrFail();
-        $comment = $post->comment()->with('user')->get();
+        $post = $user->post()->with('comment')->get();
         
-        return view('user.profile', compact('comment','user'));
+        return view('user.profile', compact('post','user'));
     }
 
     /**

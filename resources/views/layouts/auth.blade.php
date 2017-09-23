@@ -45,7 +45,7 @@
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                         
-                        <li> <a href="{{url('/')}}/profile/{{ Auth::user()->slug }}" style=" background:url('{{asset("storage/".Auth::user()->avatar)}}'); background-size: cover; width: 40px; height: 40px;  float:right; border-radius: 50%; border: 2px #fff solid;">
+                        <li> <a href="{{url('/profile')}}" style=" background:url('{{Storage::url(''.Auth::user()->avatar)}}'); background-size: cover; width: 40px; height: 40px;  float:right; border-radius: 50%; border: 2px #fff solid;">
                             </a></li>
                        
                                                 <li class="dropdown">
@@ -65,8 +65,7 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                    <li class="fa fa-user-o" aria-hidden="true"><a href="{{url('/')}}/profile/{{ Auth::user()->slug }}"> Profile</a></li>
-
+                                    <li class="fa fa-user-o" aria-hidden="true"><a href="{{url('/profile')}}"> Profile</a></li>
                                     <li class="fa fa-btn fa-user"><a href="{{url('/post/create')}}"> Create Post</a></li>
                                 </ul>
                             </li>

@@ -46,7 +46,7 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $id = \App\Category::where('slug', $slug)->pluck('id');
-        $posts = \App\Post::where('category_id', $id)->get();
+        $posts = \App\Post::where('category_id', $id)->get()->paginate(20);
         $user = \App\User::get();
           return view('category.category', compact('posts','user'));
     }

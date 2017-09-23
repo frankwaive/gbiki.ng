@@ -67,7 +67,7 @@ class RegisterController extends Controller
     {
             $file = $data['avatar']->getClientOriginalExtension();
             $filename = time() . '.' . $file;
-            $path = $data['avatar']->storeAs('public/uploads/profile_images', $filename);
+            $path = $data['avatar']->storeAs('uploads/profile_images', $filename);
 
     
     

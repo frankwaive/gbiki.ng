@@ -1,4 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+@section ('PageTitle')
+Join Gbiki || Register a new account
+@stop
+
+
+
+
+
 
 @section('content')
 <div class="container">
