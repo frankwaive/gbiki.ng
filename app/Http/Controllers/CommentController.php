@@ -1,8 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Post;
+use App\User;
+use App\Comment;
+use Session;
+use Purifier;
 
 class CommentController extends Controller
 {
@@ -23,7 +29,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        $post = \App\Post::where('id', $id)->firstOrFail();
+        return view('post.create')->withPosts($post);
     }
 
     /**
@@ -32,9 +39,23 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Post $post)
     {
-        //
+         
+        // store in the database
+       
+        
+           Comment::create([
+
+            'post_id' => request('post_id'),
+            'comment' => request('comment'), 
+            'user_id' => \Auth::id() 
+
+           ]);
+        
+        return back();
+        
+
     }
 
     /**

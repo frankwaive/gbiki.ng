@@ -5,13 +5,14 @@ Login || Gbiki
 @stop
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
+    <div id="login-shit">
+        <div class="col-md-7 login-text">
+            <h1> Learn, Share & Inspire</h1>
+        </div>
+        <div class="col-md-5 mylogin">
+            <div class="login-section">
+                <h2>Login</h2>
 
-                <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
@@ -70,11 +71,11 @@ Login || Gbiki
                                     Forgot Your Password?
                                 </a>
                             </div>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    
 </div>
 @endsection

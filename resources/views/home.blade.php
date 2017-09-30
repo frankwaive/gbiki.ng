@@ -4,9 +4,7 @@ Welcome to Gbiki
 @stop
 @section('content')
 
-<?php $posts = \App\Post::all();
-        $users = \App\User::get();
-        ?>
+
 <div class="container">
     <div class="row">
         <div class="">
@@ -17,22 +15,40 @@ Welcome to Gbiki
                     
 
                     @foreach ($posts as $post)
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <img src="{{asset('storage/'.$post->featured_img)}}" style="width: 80px; height: 80px; border: 3px #fff solid; border-radius: 50%; margin: 0 20px 0 0;" >
-                        </div>
-                        <div class="col-md-8">
-                            <a href="{{url('/post/'. $post->slug)}}"><h4>{{ $post->post_title }}</h4></a>
+                    @if(!empty($post->featured_img))
+                     <div id="onome" class="row">
+                         <div class="col-md-3">
+                            <img src="{{asset('storage/'.$post->featured_img)}}" width="100%" height="auto" />      
+                            </div>
+                        <div class="col-md-9">
+                            <a href="{{url('/post/'. $post->slug)}}"><h3>{{ $post->post_title }}</h3></a>
                             <div class="meta">
-                              by <strong><a href="{{url('/')}}/profile/{{ $post->user->slug }}">{{ $post->user->name}}</a></strong> {{ $post->created_at->toDayDateTimeString()}}
+                              by <strong><a href="{{url('/')}}/profile/{{ $post->user->slug }}">{{ $post->user->name}}</a></strong> {{ $post->created_at->toDayDateTimeString()}} <span class="fa fa-comment"></span>  {{ $post->comment()->count() }} comments</span>
                             </div>
                             <?php $body = strip_tags($post->post_content); ?>
                             <p> {!! \Illuminate\Support\Str::words( $body,35,'....')  !!}</p>
                         </div>
                     </div>
+                    @else
+                     <div id="onome" class="row">
+                        
+                        <div class="front">
+                            <a href="{{url('/post/'. $post->slug)}}"><h3>{{ $post->post_title }}</h3></a>
+                            <div class="meta">
+                              by <strong><a href="{{url('/')}}/profile/{{ $post->user->slug }}">{{ $post->user->name}}</a></strong> {{ $post->created_at->toDayDateTimeString()}} <span class="fa fa-comment"></span>  {{ $post->comment()->count() }} comments</span>
+                            </div>
+                            <?php $body = strip_tags($post->post_content); 
+                            ?>
+                            <p> {!! \Illuminate\Support\Str::words( $body,55,'...')  !!}</p>
+                        </div>
+                    </div>
+
+
+                    @endif
+
                     @endforeach
 
-                    
+                    {{ $posts->links()}}
                 </div>
             </div>
         </div>

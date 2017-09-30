@@ -8,52 +8,72 @@
 <div class="container">
 
   <div class="panel panel-default">
+
   <div class="panel-heading">
-    <div class="container">
-    <div class="left">
-<img src="{{asset('storage/'.$post->user->avatar)}}" style="width: 80px; height: 80px; border: 3px #fff solid; border-radius: 50%; margin: 0 20px 0 0;" >
-</div>
+ <div class="row">
+                      <div class="user-avater col-md-4 col-xs-12 " style="width: 80px; height: 80px; border: 3px #fff solid; border-radius: 50%; background:url('{{Storage::url(''.$post->user->avatar)}}'); background-size: cover;""> </div>
 
-<div class="left">
-  <h3>{{ $post->post_title }}</h3> 
 
-  by <strong>{{ $post->user->name}}</strong> on {{ $post->created_at->toDayDateTimeString()}} 
 
- </div>
-  </div>
+                    <div class="col-md-8 col-xs-12 user-meta">
+                      <h3>{{ $post->post_title }}</h3> 
+
+                      by <strong><a href="{{url('/')}}/profile/{{ $post->user->slug }}">{{ $post->user->name}}</a></strong> on {{ $post->created_at->toDayDateTimeString()}} <span class="comments-title"><span class="fa fa-comment"></span>  {{ $post->comment()->count() }} Comments</span>
+
+
+@if($post->user->id == Auth::user()->id)
+    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-default btn-sm">Edit</a>
+
+@endif
+
+                      </div>
+   </div>
    </div>
 
   <div class="panel-body">
-    
-
-
-
-@if (File::exists(asset('storage/'.$post->featured_img)))
-    <img src="{{ asset('storage/'. $post->featured_img) }}" alt="{{ $post->title }}" />
-@else 
-   !!
-@endif
-
-
-
-
-
 
     <p>{!! $post->post_content !!} </p>
-  </div>
+ 
+
+        @if(!empty($post->featured_img))
+        <img src="{{asset('storage/'.$post->featured_img)}}" width="auto" max-width="100%" height="auto" />
+      @endif
+
+       </div>
+     </div>
+
+
+
+<h3 class="comments-title"><span class="fa fa-comment"></span>  {{ $post->comment()->count() }} Comments</h3>
 
     @foreach ($post->comment as $comment)
     
 
  <div class="panel panel-default">
   <div class="panel-heading">
-  <img src="{{Storage::url(''.$comment->user->avatar)}}" style="width: 30px; height: 30px; border: 3px #fff solid; border-radius: 50%; margin: 0 auto;" > Reply by <strong>{{ $comment->user->name}}</strong> on {{ $post->created_at->toDayDateTimeString()}}  
+ <div class="row">
+
+
+
+                  <div class="col-md-4" style="width: 60px; height: 60px; border: 3px #fff solid; border-radius: 50%; background:url('{{Storage::url(''.$comment->user->avatar)}}'); background-size: cover; float: left;""> 
+                  </div>
+
+
+
+                  <div class="col-md-8">
+                    <h4>Re - {{ $post->post_title }}</h4> 
+                    comment by <strong><a href="{{url('/')}}/profile/{{ $comment->user->slug }}">{{ $comment->user->name}}</a></strong> on {{ $comment->created_at->toDayDateTimeString()}}
+                  </div>
+                          
+                          
+</div>
 </div>
 
 <div class="panel-body">
-    <p> {{ $comment->comment}}</p>
+    <p> {!! $comment->comment !!}</p>
 </div>
 </div>
+
     @endforeach
 </div>
 
@@ -64,18 +84,28 @@
 
 @if (Auth::guest())
 
-<p> Existing user? Login to comment. New User? Register to comment </p>
+<p class="unreg"> Existing user? <a href="{{ url('/login') }}">Login</a> to comment. New User? <a href="{{ url('/register') }}">Register</a> to comment </p>
 
  @else
 <script>tinymce.init({ selector:'textarea' });</script>
-<div class="row">
-    <div id="comment-form" class="" style="margin-top: 25px;">
-      {{ Form::open(['route' => ['comment.store', $post->id], 'method' => 'POST']) }}
+<div class="container">
+    <div id="comment-form" style="margin-top: 25px;">
+      {{ Form::open(array('action' => array('CommentController@store', $post->id, 'method' => 'POST'))) }}
 
         <div class="row">
  
+                    @if ($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+              @endif
 
-          <div class="col-md-12">
+          <div class="container">
+            {{ Form::hidden('post_id', $post->id) }}
             {{ Form::label('comment', "Comment:") }}
             {{ Form::textarea('comment', null, ['class' => 'form-control', 'rows' => '5']) }}
 
@@ -106,7 +136,7 @@
 
 
 
-    </div>
+    
   </div>
   </div>
 @endif

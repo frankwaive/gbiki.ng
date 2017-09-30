@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 
+
+
 class User extends Authenticatable
 {
 
@@ -23,6 +25,15 @@ class User extends Authenticatable
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function follows() {
+        return $this->hasMany(Follow::class);
+    }
+
+    public function isFollowing($target_id)
+    {
+        return (bool)$this->follows()->where('target_id', $target_id)->first(['id']);
     }
 
     use Notifiable;
@@ -58,4 +69,6 @@ class User extends Authenticatable
     public function comment(){
         return $this->hasMany('App\Comment');
     }
+
+
 }

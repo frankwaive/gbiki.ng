@@ -6,11 +6,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Post;
+use App\Category;
 use App\Comment;
 use Session;
-
+use Purifier;
+use App\User;
+use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
+
+       /**
+     * Restrict Page Access
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *

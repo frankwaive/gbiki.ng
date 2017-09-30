@@ -139,13 +139,13 @@ Join Gbiki || Register a new account
 
 
 
-                        <div class="form-group{{ $errors->has('avvatar') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
                             <label for="avatar" class="col-md-4 control-label">Avatar</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-file-image-o"></i></span>
-                                <input id="avatar" type="file" accept="image/* class="form-control" name="avatar" value="{{ old('avatar') }}" required>
+                                <input id="avatar" type="file" accept="image/*" class="form-control" name="avatar" value="{{ old('avatar') }}" required>
 
                                 @if ($errors->has('avatar'))
                                     <span class="help-block">

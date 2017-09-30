@@ -11,13 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/users', 'FollowController@index');
+Route::post('/follow/{user}', 'FollowController@follow');
+Route::delete('/unfollow/{user}', 'FollowController@unfollow');
+
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 Route::resource('post', 'PostController');
 Route::resource('category', 'CategoryController');
 Route::resource('comment', 'CommentController');

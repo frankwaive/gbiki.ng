@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\session;
+use App\Category;
 
 class CategoryController extends Controller
 {
@@ -46,9 +49,10 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $id = \App\Category::where('slug', $slug)->pluck('id');
-        $posts = \App\Post::where('category_id', $id)->get()->paginate(20);
+        $posts = \App\Post::where('category_id', $id)->paginate(15);
         $user = \App\User::get();
-          return view('category.category', compact('posts','user'));
+        $categories = Category::where('slug', $slug)->first();
+          return view('category.category', compact('posts','user','categories'));
     }
 
     /**

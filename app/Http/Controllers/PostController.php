@@ -16,6 +16,15 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
+        /**
+     * Restrict Page Access
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show','index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -60,15 +69,16 @@ class PostController extends Controller
         $post->post_content = Purifier::clean($request->post_content);
         $post->user_id = \Auth::id(); //get logged in user
 
+
         if ($request->hasFile('featured_img')) {
-          $image = $request->file('featured_img');
-          $filename = time() . '.' . $image->getClientOriginalExtension();
-          $post->featured_img = $image->storeAs('uploads/uploadedimages', $filename);
+        $file = $request['featured_img']->getClientOriginalExtension();
+        $filename = time() . '.' . $file;
+        $post->featured_img = $request['featured_img']->storeAs('uploads/uploadedimages', $filename);
         }
 
 
         $post->save();
-        Session::flash('success', 'The blog post was successfully save!');
+        Session::flash('success', 'The post was successfully save!');
         return redirect()->route('post.show', $post->slug);
     }
 
@@ -95,7 +105,16 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+               // find the post in the database and save as a var
+        $post = Post::find($id);
+        $categories = Category::all();
+        $cats = array();
+        foreach ($categories as $category) {
+            $cats[$category->id] = $category->category_name;
+        }
+
+        // return the view and pass in the var we previously created
+        return view('post.edit')->withPost($post)->withCategories($cats);
     }
 
     /**
@@ -107,7 +126,49 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate the data
+        $post = Post::find($id);
+
+        if ($request->input('slug') == $post->slug) {
+            $this->validate($request, array(
+                'post_title'         => 'required|max:140',
+                'category_id'   => 'required|integer',
+                'user_id'   => 'integer',
+                'post_content'          => 'required',
+                'featured_img' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4048',
+            ));
+        } else {
+        $this->validate($request, array(
+                'post_title'         => 'required|max:140',
+                'category_id'   => 'required|integer',
+                'user_id'   => 'integer',
+                'post_content'          => 'required',
+                'featured_img' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4048',
+            ));
+        }
+
+        // Save the data to the database
+        $post = Post::find($id);
+
+
+        $post->post_title = $request->post_title;
+        $post->category_id = $request->category_id;
+        $post->post_content = Purifier::clean($request->post_content);
+        $post->user_id = \Auth::id(); //get logged in user
+
+
+        if ($request->hasFile('featured_img')) {
+        $file = $request['featured_img']->getClientOriginalExtension();
+        $filename = time() . '.' . $file;
+        $post->featured_img = $request['featured_img']->storeAs('uploads/uploadedimages', $filename);
+        }
+
+        $post->save();
+        Session::flash('success', 'The post was successfully save!');
+        return redirect()->route('post.show', $post->slug);
+    }
+
+    /**
     }
 
     /**

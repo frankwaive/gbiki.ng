@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'sex' => 'required|string',
             'about' => 'required|string|max:255',
-            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:5048',
         ]);
     }
 
