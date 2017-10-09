@@ -9,6 +9,10 @@ use App\User;
 use App\Comment;
 use Session;
 use Purifier;
+use App\Notifications\RepliedToPost;
+use Notification;
+
+
 
 class CommentController extends Controller
 {
@@ -27,7 +31,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($post)
     {
         $post = \App\Post::where('id', $id)->firstOrFail();
         return view('post.create')->withPosts($post);
@@ -39,21 +43,22 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Post $post)
+    public function store(Request $request, Comment $comment)
     {
          
         // store in the database
        
         
-           Comment::create([
+       $comment=new Comment();
+       $comment->comment=$request->comment;
+       $comment->user_id=auth()->user()->id;
+       $comment->post_id=$request->post_id;
 
-            'post_id' => request('post_id'),
-            'comment' => request('comment'), 
-            'user_id' => \Auth::id() 
+       $comment->save();
 
-           ]);
+       $comment->post->user->notify(new RepliedToPost($comment));
         
-        return back();
+       return back();
         
 
     }

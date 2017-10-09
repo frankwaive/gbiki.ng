@@ -24,3 +24,7 @@ Route::resource('post', 'PostController');
 Route::resource('category', 'CategoryController');
 Route::resource('comment', 'CommentController');
 Route::resource('profile', 'UserController');
+
+Route::get('/markAsRead',function(){
+    auth()->user()->unreadNotifications->markAsRead();
+});

@@ -2,25 +2,30 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
+
 class RepliedToPost extends Notification
 {
     use Queueable;
+    public $comment;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($comment)
     {
-        //
+        $this->comment=$comment;
     }
 
+    
     /**
      * Get the notification's delivery channels.
      *
@@ -29,21 +34,35 @@ class RepliedToPost extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+
+        return ['database'];
     }
 
+
+
     /**
-     * Get the mail representation of the notification.
+     * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return array
      */
-    public function toMail($notifiable)
+    public function toDatabase($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+
+        return[
+            'comment'=>$this->comment,
+            'user'=>auth()->user()
+        ];
+
+    }
+
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'comment'=>$this->comment,
+            'user'=>auth()->user()
+        ]);
     }
 
     /**
@@ -54,8 +73,11 @@ class RepliedToPost extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
+        return[
+            'comment'=>$this->comment,
+            'user'=>auth()->user()
+
         ];
     }
+    
 }

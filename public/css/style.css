@@ -145,9 +145,8 @@ ul.top-name li.user {
     white-space: nowrap
 }
 
-.liz span.fa,
-button .fa {
-    margin-right: 10px;
+li#markasunread.dropdown a {
+    line-height: 3;
 }
 
 ul.liz li.dropdown {
@@ -534,6 +533,10 @@ nav ul.menu a:active {
 
 
 
+
+
+
+
 /* Small Devices, Tablets */
 
 
@@ -649,6 +652,10 @@ nav ul.menu a:active {
 
 
 
+
+
+
+
 /* since 3.1.0 */
 
 .navbar-collapse.collapse.in {
@@ -658,6 +665,10 @@ nav ul.menu a:active {
 .collapsing {
     overflow: hidden!important;
 }
+
+
+
+
 
 
 

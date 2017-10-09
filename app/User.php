@@ -2,16 +2,18 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Notifications\Notifiable;
 
 
 
 class User extends Authenticatable
 {
+    
 
-    use Sluggable;
+    use Sluggable, Notifiable;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -36,7 +38,6 @@ class User extends Authenticatable
         return (bool)$this->follows()->where('target_id', $target_id)->first(['id']);
     }
 
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

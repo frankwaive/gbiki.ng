@@ -52,7 +52,7 @@
                         @else
                          <ul class="top-name liz">
                 
-                       
+            
                                                 <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"charset="" data-original-title="Profile and settings">
                         <img src="{{asset('storage/'.Auth::user()->avatar)}}"  class="Avatar Avatar--size32"/> 
@@ -80,6 +80,42 @@
                                     <span class="fa fa-btn fa-user"> </span>
                                     Create Post</a></li>
                                 </ul>
+                            </li>
+
+
+@if(empty(count(auth()->user()->unreadNotifications))
+
+                    <li id="markasunread">
+                                                    <a>
+                                                        <span class="badge fa fa-bell"> {{count(auth()->user()->unreadNotifications)}} </span>
+                                                    </a>
+                    </li>
+                            
+@else
+                    <li class="dropdown" id="markasunread">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"charset="" data-original-title="Profile and settings">
+                                                        <span class="badge fa fa-bell"> {{count(auth()->user()->unreadNotifications)}} </span>
+                                                    </a>
+
+
+                                                    <ul class="dropdown-menu" role="menu">
+
+                                                        <?php $user= Auth::user(); ?>
+                                                            @foreach ($user->unreadNotifications as $notification) 
+
+                                                        <li>
+                                                            
+                                                              @include('notification.'.snake_case(class_basename($notification->type))) 
+
+                                                        </li>
+                                                        
+                                                        @endforeach
+                                                    </ul>
+                    </li>
+@endif
+
+
+
                             </li>
                            
                         @endif
@@ -142,6 +178,7 @@
     <script src="{{ asset('js/foundation.min.js') }}"></script>
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/what-input.js') }}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
 
     
 

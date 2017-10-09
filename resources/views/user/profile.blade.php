@@ -108,7 +108,7 @@
 
                     @endif
 
-                    @if(empty($post->post_content))
+                    @if(empty($user->post()->count()))
 
                     <h2> {{ $user->name}} has not posted anything yet! </h2>
                     @endif

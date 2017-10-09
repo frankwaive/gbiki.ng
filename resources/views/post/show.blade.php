@@ -19,9 +19,10 @@
                       <h3>{{ $post->post_title }}</h3> 
 
                       by <strong><a href="{{url('/')}}/profile/{{ $post->user->slug }}">{{ $post->user->name}}</a></strong> on {{ $post->created_at->toDayDateTimeString()}} <span class="comments-title"><span class="fa fa-comment"></span>  {{ $post->comment()->count() }} Comments</span>
+@if (Auth::guest())
 
+@else
 
-@if($post->user->id == Auth::user()->id)
     <a href="{{ route('post.edit', $post->id) }}" class="btn btn-default btn-sm">Edit</a>
 
 @endif

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 
@@ -11,7 +12,7 @@ class Post extends Model
 {   
 
 
- use Sluggable;
+ use Sluggable, Notifiable, CommentableTrait;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -34,11 +35,11 @@ class Post extends Model
 	/**
     *Get the user who made this post
     **/
-    	 public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 	/**
     *Get the category of this post

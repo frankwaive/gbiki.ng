@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Post;
@@ -11,9 +12,13 @@ use App\Comment;
 use Session;
 use Purifier;
 use App\User;
-use App\Http\Controllers\Controller;
+
+
+
+
 class UserController extends Controller
 {
+
 
        /**
      * Restrict Page Access
